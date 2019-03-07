@@ -1,18 +1,24 @@
 #!flask/bin/python
 from flask import Flask, request, jsonify
 import utils
+import json
 
 app = Flask(__name__)
+
+global config
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 @app.route('/advice', methods=['GET'])
 def advice():
     try:
         if request.method == 'GET':
-            #image_url = request.args.get('image_url')
-            #filename = utils.download_image_from_url(image_url)
-            utils.addNewCandleToData({ "c": 123, "a": 1, "b": 2})
+            dataGet = {}
+            for i in config["dataCol"]:
+                dataGet[i] = request.args.get(i)
+            datas = utils.addNewCandleToData(dataGet)
             return jsonify({
-                "hello": "ola"
+                "advice": utils.predict(datas)
             })
         else:
             return jsonify({
