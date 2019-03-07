@@ -1,12 +1,12 @@
 #!flask/bin/python
 from flask import Flask, request, jsonify
-import utils
+import utils_flask_server as utils
 import json
 
 app = Flask(__name__)
 
 global config
-with open('config.json', 'r') as f:
+with open('config_flask.json', 'r') as f:
     config = json.load(f)
 
 @app.route('/advice', methods=['GET'])
@@ -18,7 +18,7 @@ def advice():
                 dataGet[i] = request.args.get(i)
             datas = utils.addNewCandleToData(dataGet)
             return jsonify({
-                "advice": utils.predict(datas)
+                "advice": utils.predict(datas),
             })
         else:
             return jsonify({

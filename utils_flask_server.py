@@ -1,11 +1,13 @@
 import random
 import json
 import csv
+from model.core.model import Model
+from model.core.data_processor import DataLoader
 
 global config
 candles = []
 
-with open('config.json', 'r') as f:
+with open('config_flask.json', 'r') as f:
     config = json.load(f)
 
 with open(config["dataName"]) as csv_file:
@@ -18,10 +20,22 @@ with open(config["dataName"]) as csv_file:
             i += 1
         candles.append(candle)
 
+model = Model()
+model.load_model(config["nameModel"])
+
+dataLoader = DataLoader(
+    config["dataName"],
+    config['data']['train_test_split'],
+    config['data']['columns']
+)
+
 def predict(datas):
     # Chỗ này sẽ load model lên và tiến hành predict
+    transformed_data = dataLoader.transform_data(datas, config["data"]["columns"], normalise=config["data"]["normalise"])
+    model_result = model.predict(transformed_data)
+    print(model_result)
     actions = ['sell', 'buy']
-    return actions[random.randrange(0,100) % 2]
+    return actions[0]
 
 def addNewCandleToData(candle):
     candles.append(candle)
@@ -34,4 +48,4 @@ def addNewCandleToData(candle):
     dataFile.close()
 
     # return 50 candles
-    return candles[-int(config["sequenceLen"]):]
+    return candles[-(int(config["sequenceLen"]) - 1):]
