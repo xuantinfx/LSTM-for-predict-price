@@ -1,6 +1,7 @@
 import random
 import json
 import csv
+import tensorflow as tf
 from model.core.model import Model
 from model.core.data_processor import DataLoader
 
@@ -22,6 +23,8 @@ with open(config["dataName"]) as csv_file:
 
 model = Model()
 model.load_model(config["nameModel"])
+global graph
+graph = tf.get_default_graph()
 
 dataLoader = DataLoader(
     config["dataName"],
@@ -32,7 +35,8 @@ dataLoader = DataLoader(
 def predict(datas):
     # Chỗ này sẽ load model lên và tiến hành predict
     transformed_data = dataLoader.transform_data(datas, config["data"]["columns"], normalise=config["data"]["normalise"])
-    model_result = model.predict(transformed_data)
+    with graph.as_default():
+        model_result = model.predict(transformed_data)
     print(model_result)
     actions = ['sell', 'buy']
     return actions[0]
