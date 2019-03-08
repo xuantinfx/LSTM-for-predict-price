@@ -94,5 +94,4 @@ class DataLoader():
 
         transformed_data = np.array(transformed_data)
         transformed_data = self.normalise_windows(transformed_data, single_window=True) if normalise else transformed_data         
-        print(transformed_data.shape)
         return transformed_data

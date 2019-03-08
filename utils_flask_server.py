@@ -37,9 +37,11 @@ def predict(datas):
     transformed_data = dataLoader.transform_data(datas, config["data"]["columns"], normalise=config["data"]["normalise"])
     with graph.as_default():
         model_result = model.predict(transformed_data)
-    print(model_result)
-    actions = ['sell', 'buy']
-    return actions[0]
+    action = None
+    if (model_result[0, 0] >= transformed_data[0, -1, [0]]):
+        action = 'buy'
+    else: action = 'sell'
+    return action
 
 def addNewCandleToData(candle):
     candles.append(candle)
