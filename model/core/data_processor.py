@@ -20,14 +20,14 @@ class DataLoader():
         Warning: batch method, not generative, make sure you have enough memory to
         load data, otherwise reduce size of the training split.
         '''
-        data_windows = [] #mảng 3 chiều
-        for i in range(self.len_test - seq_len): #trừ 50 dòng cuối
-            data_windows.append(self.data_test[i:i+seq_len]) #mỗi phần tử trong data_windows là 1 df 50 phần tử
+        data_windows = []
+        for i in range(self.len_test - seq_len):
+            data_windows.append(self.data_test[i:i+seq_len])
 
         data_windows = np.array(data_windows).astype(float)
         data_windows = self.normalise_windows(data_windows, single_window=False) if normalise else data_windows
 
-        x = data_windows[:, :-1] #
+        x = data_windows[:, :-1]
         y = data_windows[:, -1, [0]]
         return x,y
 
@@ -51,7 +51,7 @@ class DataLoader():
         while i < (self.len_train - seq_len):
             x_batch = []
             y_batch = []
-            for i in range(batch_size):
+            for b in range(batch_size):
                 if i >= (self.len_train - seq_len):
                     # stop-condition for a smaller final batch if data doesn't divide evenly
                     yield np.array(x_batch), np.array(y_batch)

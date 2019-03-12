@@ -48,7 +48,7 @@ class Model():
 		print('[Model] Training Started')
 		print('[Model] %s epochs, %s batch size' % (epochs, batch_size))
 		
-		save_fname = os.path.join(save_dir, '%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y-%H%M%S'), str(epochs)))
+		save_fname = os.path.join(save_dir, '%s-e%s.h5' % ('close_volume', str(epochs)))
 		callbacks = [
 			EarlyStopping(monitor='val_loss', patience=2),
 			ModelCheckpoint(filepath=save_fname, monitor='val_loss', save_best_only=True)
@@ -71,7 +71,7 @@ class Model():
 		print('[Model] Training Started')
 		print('[Model] %s epochs, %s batch size, %s batches per epoch' % (epochs, batch_size, steps_per_epoch))
 		
-		save_fname = os.path.join(save_dir, '%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y-%H%M%S'), str(epochs)))
+		save_fname = os.path.join(save_dir, '%s-e%s.h5' % ('close_volume', str(epochs)))
 		callbacks = [
 			ModelCheckpoint(filepath=save_fname, monitor='loss', save_best_only=True)
 		]
@@ -90,7 +90,7 @@ class Model():
 		#Predict each timestep given the last sequence of true data, in effect only predicting 1 step ahead each time
 		print('[Model] Predicting Point-by-Point...')
 		predicted = self.model.predict(data)
-		# predicted = np.reshape(predicted, (predicted.size,))
+		predicted = np.reshape(predicted, (predicted.size,))
 		return predicted
 
 	def predict_sequences_multiple(self, data, window_size, prediction_len):
@@ -117,6 +117,13 @@ class Model():
 			curr_frame = curr_frame[1:]
 			curr_frame = np.insert(curr_frame, [window_size-2], predicted[-1], axis=0)
 		return predicted
-	
-	def predict(self, datas): 
-		return self.model.predict(datas)
+
+	def predict_trend(self, data, window_size, prediction_len):
+		print('[Model] Predicting Trend...')
+		curr_frame = data[0]
+		predicted = []
+		for i in range(prediction_len):
+			predicted.append(self.model.predict(curr_frame[newaxis,:,:])[0,0])
+			curr_frame = curr_frame[1:]
+			curr_frame = np.insert(curr_frame, [window_size-2], predicted[-1], axis=0)
+		return predicted

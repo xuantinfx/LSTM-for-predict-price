@@ -1,27 +1,12 @@
 {
-    "dataName": "model/data/BTC_USDT_RSI_MACD.csv",
-    "dataCol": [
-        "start",
-        "open",
-        "high",
-        "low",
-        "close",
-        "vwp",
-        "volume",
-        "trades",
-        "macd",
-        "rsi"
-    ],
-    "sequenceLen": 50,
-    "nameModel": "model/saved_models/close_volume-e2.h5",
-    "data": {
+	"data": {
 		"filename": "BTC_USDT_RSI_MACD.csv",
 		"columns": [
 			"close",
 			"volume"
 		],
 		"sequence_length": 50,
-		"train_test_split": 1,
+		"train_test_split": 0.85,
 		"normalise": true
 	},
 	"training": {

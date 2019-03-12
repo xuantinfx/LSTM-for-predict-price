@@ -32,22 +32,23 @@ dataLoader = DataLoader(
     config['data']['columns']
 )
 
-def predict(datas):
+def predict(datas, predict_len):
     # Chỗ này sẽ load model lên và tiến hành predict
     transformed_data = dataLoader.transform_data(datas, config["data"]["columns"], normalise=config["data"]["normalise"])
     with graph.as_default():
-        model_result = model.predict_point_by_point(transformed_data)
+        model_result = model.predict_trend(transformed_data, config['data']['sequence_length'], predict_len)
 
-    model_result = model_result[0, 0]
-    base_value = float(datas[0]['close'])
-    last_value = float(transformed_data[0, -1, [0]])
-    print(type(base_value), type(last_value), last_value)
-    trend_by_percentage = 0
-    if (model_result != last_value): trend_by_percentage = (model_result - last_value)/(last_value + 1)
-    # if (model_result[0, 0] >= transformed_data[0, -1, [0]]):
-    #     action = 'buy'
-    # else: action = 'sell'
-    return trend_by_percentage, (model_result*base_value + base_value)
+    # model_result = model_result[0, 0]
+    # base_value = float(datas[0]['close'])
+    # last_value = float(transformed_data[0, -1, [0]])
+    # print(type(base_value), type(last_value), last_value)
+    # trend_by_percentage = 0
+    # if (model_result != last_value): trend_by_percentage = (model_result - last_value)/(last_value + 1)
+    # # if (model_result[0, 0] >= transformed_data[0, -1, [0]]):
+    # #     action = 'buy'
+    # # else: action = 'sell'
+    # return trend_by_percentage, (model_result*base_value + base_value)
+    return model_result
 
 def addNewCandleToData(candle):
     candles.append(candle)

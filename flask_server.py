@@ -16,11 +16,11 @@ def advice():
             dataGet = {}
             for i in config["dataCol"]:
                 dataGet[i] = request.args.get(i)
+            predict_len = int(request.args.get("predict_len"))
             datas = utils.addNewCandleToData(dataGet)
-            trend_by_percentage, predicted_value = utils.predict(datas)
+            results = utils.predict(datas, predict_len)
             return jsonify({
-                "trend_by_percentage": trend_by_percentage,
-                "predicted_value" : predicted_value
+                "results": results
             })
         else:
             return jsonify({
