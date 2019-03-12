@@ -21,7 +21,7 @@
 			"volume"
 		],
 		"sequence_length": 50,
-		"train_test_split": 1,
+		"train_test_split": 0.85,
 		"normalise": true
 	},
 	"training": {

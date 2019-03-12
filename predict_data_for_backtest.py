@@ -40,7 +40,7 @@ def main():
     results = []
     for i in range(49, len(candles)):
         print(i)
-        result = utils.predict(candles[i - 49:i], 2)
+        result = utils.predict(candles[i - 49:i], 5)
         for temp in range(len(result)):
             result[temp] = str(result[temp])
         results.append({
