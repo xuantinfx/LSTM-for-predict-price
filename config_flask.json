@@ -1,20 +1,17 @@
 {
-    "dataName": "model/data/BTC_USDT_RSI_MACD.csv",
-    "dataCol": [
-        "start",
-        "open",
-        "high",
-        "low",
-        "close",
-        "vwp",
-        "volume",
-        "trades",
-        "macd",
-        "rsi"
-    ],
-    "sequenceLen": 50,
-    "nameModel": "model/saved_models/07032019-141911-e2.h5",
-    "data": {
+	"dataName": "model/data/BTC_USDT_RSI_MACD.csv",
+	"dataCol": [
+		"open",
+		"high",
+		"low",
+		"close",
+		"volume",
+		"trades"
+	],
+	"sequenceLen": 50,
+	"nameModel": "model/saved_models/07032019-141911-e2.h5",
+	"rfModelName": "model/saved_models/RF_1h_model",
+	"data": {
 		"filename": "BTC_USDT_RSI_MACD.csv",
 		"columns": [
 			"close",
@@ -32,8 +29,7 @@
 		"loss": "mse",
 		"optimizer": "adam",
 		"save_dir": "saved_models",
-		"layers": [
-			{
+		"layers": [{
 				"type": "lstm",
 				"neurons": 100,
 				"input_timesteps": 49,

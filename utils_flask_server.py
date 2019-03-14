@@ -21,10 +21,10 @@ with open(config["dataName"]) as csv_file:
             i += 1
         candles.append(candle)
 
-model = Model()
-model.load_model(config["nameModel"])
-global graph
-graph = tf.get_default_graph()
+# model = Model()
+# model.load_model(config["nameModel"])
+# global graph
+# graph = tf.get_default_graph()
 
 dataLoader = DataLoader(
     config["dataName"],
